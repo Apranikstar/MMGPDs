@@ -1,7 +1,7 @@
 import numpy as np
 import re
 import ast
-import analysishandler as ah
+import src.GPD.analysishandler as ah
 
 
 

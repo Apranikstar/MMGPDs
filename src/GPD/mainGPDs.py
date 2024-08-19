@@ -1,11 +1,11 @@
 import lhapdf
-import lhapdfhandler 
+import src.GPD.lhapdfhandler as lhapdfhandler
 import numpy as np
-import analysishandler
+import src.GPD.analysishandler as analysishandler
 import time
 import uncertainties
-import csvdataparser
-import datapointshandler as dp
+import src.GPD.csvdataparser as csvdataparser
+import src.GPD.datapointshandler as dp
 ################# 
 def GPDMethod():
     print("Initializing MMGPD toolchain.")

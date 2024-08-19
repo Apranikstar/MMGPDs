@@ -32,7 +32,7 @@ def AnalysisDefualtDataPoints(SingleOrMultiple):
 ############################################################################################
 def GetAnalysisParameters():
     #Listing All analysises
-    analysisList = [d for d in os.listdir("data") if os.path.isdir(os.path.join("data", d))]
+    analysisList = [d for d in os.listdir("src/GPD/data") if os.path.isdir(os.path.join("src/GPD/data", d))]
     print("################################")
     print(analysisList)
     #User choses an analysis
@@ -40,7 +40,7 @@ def GetAnalysisParameters():
     userAnalysisInput = userAnalysisInput.strip()
     #Time to pick a parameter set
     csv_files=[]
-    for file_name in os.listdir("data/"+userAnalysisInput):
+    for file_name in os.listdir("src/GPD/data/"+userAnalysisInput):
         # Check if the file is a CSV file
         if file_name.endswith('.csv'):
             csv_files.append(file_name.rsplit('.', 1)[0])
@@ -62,9 +62,12 @@ def GetAnalysisParameters():
        userGPDList = [item.strip() for item in userGPDList.split(",")]
 
     print("################################")
+    ################################
+
+
     flavourList = []
-    #csvFileName = "data/" + userAnalysisInput+ "/" +userPrameterSet+ ".csv"
-    with open("data/" + userAnalysisInput+ "/" +userGPDSetInput+ ".csv", mode='r') as file:
+    #csvFileName = "src/GPD/data/" + userAnalysisInput+ "/" +userPrameterSet+ ".csv"
+    with open("src/GPD/data/" + userAnalysisInput+ "/" +userGPDSetInput+ ".csv", mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
             # Append the first element of each row to the list
