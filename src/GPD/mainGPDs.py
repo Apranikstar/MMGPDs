@@ -9,6 +9,7 @@ import src.GPD.datapointshandler as dp
 import src.GPD.computePDFFunction as computePDFFunction
 import src.GPD.computeProfFunc as computeProfFunc
 import src.GPD.computeHGPD as computeHGPD
+import src.GPD.csvOutputHandler as csvOutputHandler
 
 ################# 
 def GPDMethod():
@@ -25,6 +26,7 @@ def GPDMethod():
     # Calculating pdf function q()
     pdfFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[3], analysisPDFSET)
     print("PDF at forward limit is:", pdfFunction) #pdfFunction returns a dictionary of flavours "uv", "dv",etc
+    print("################")
     ################
     # Calculating Profile Function f()
     profileFunction = computeProfFunc._profileFunc( analysisVariables, analysisDataPoints[0])
@@ -32,8 +34,12 @@ def GPDMethod():
     ################
     # computeH(pdfFunction, profileFunction, t, flavourslist)
     H = computeHGPD.computeH(pdfFunction, profileFunction, analysisDataPoints[2],analysisVariables[3])
-    print(H)
-
+    ################
+    csvOutputHandler.save_dict_to_csv(pdfFunction, "pdfFunction.csv")
+    csvOutputHandler.save_dict_to_csv(profileFunction, "profileFunctions.csv")
+    csvOutputHandler.save_dict_to_csv(H, "H.csv")
+    csvOutputHandler.write_list_to_csv(analysisDataPoints,"DataPointsX.csv")
+    print("Data are stored in /outputs/Rawdata\n")
 
     ##### Note that for our line of work we need Q2 and t to be constant and x to be the variable.
     ## WRITE A PRINT TO TO CITE THE CORRESPONDING PAPERS
