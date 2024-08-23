@@ -42,7 +42,7 @@ def _PDF(x,Q2, flavourList, analysisPDFSET):
         x = x.tolist()
         print("X: ",x)
     else:
-        x = float(x)
+        x = [float(x)]
         print("X:", x)
     if isinstance(Q2, np.ndarray):
         Q2 = Q2.tolist()
