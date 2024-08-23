@@ -1,31 +1,23 @@
-from uncertainties import ufloat
 import csv
 
+def get_flavour_values(dataFilename, flavourKeyList):
+    # Initialize an empty dictionary to store the results
+    result = {}
 
-def parse_value(value_str):
-    """Parse a value of the form 'value+0' and return a ufloat."""
-    # Split the string at the '+' symbol to separate the value and the uncertainty
-    value, uncertainty = value_str.split('+')
-    # Convert the value to a float, uncertainty is 0 in this case
-    value = float(value)
-    uncertainty = float(uncertainty)  # This is always 0 in your case
-    # Return the ufloat
-    return ufloat(value, uncertainty)
+    # Open the CSV file
+    with open(dataFilename, newline='') as csvfile:
+        # Create a CSV reader object
+        csvreader = csv.reader(csvfile)
 
-def process_csv(file_path, keys=None):
-    """Process the CSV file and return ufloats for the specified keys."""
-    data = {}
-    
-    with open(file_path, mode='r') as file:
-        reader = csv.reader(file)
-        
-        for row in reader:
-            # The first element is the key (e.g., "uv", "dv", etc.)
-            key = row[0].strip('"')
+        # Iterate through each row in the CSV
+        for row in csvreader:
+            # Extract the flavour key from the first column
+            flavour = row[0]
             
-            if keys is None or key in keys:
-                # The rest of the row contains the values
-                values = [parse_value(v) for v in row[1:]]
-                data[key] = values
-                
-    return data
+            # Check if the current flavour key is in the flavourKeyList
+            if flavour in flavourKeyList:
+                # Convert each of the remaining elements to float and store them
+                result[flavour] = [eval(value) for value in row[1:]]
+    
+    return result
+
