@@ -89,7 +89,7 @@ def GetDataPoints():
         kinematicPoint = input("Write down the variables in the same sequence as explained with commas (,) seperating them: \n")
         Values = [value.strip() for value in kinematicPoint.split(",")]
         for items in Values:
-            results.append(int(items))
+            results.append(items)
         print("The kinematic point is: ", results)
         print("##############DATAPOINTS RETRIEVED SUCCESFULLY!##################")
         return results
