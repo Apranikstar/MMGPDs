@@ -9,7 +9,7 @@ def computationHandeler(parameters, x):
     return results
 
 
-def _profileFunc(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc", [Flavour List] , X ]
+def _profileFuncH(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc", [Flavour List] , X ]
     print("Calculating profile functions: ")
     if isinstance(x, np.ndarray):
         x = x.tolist()
@@ -20,7 +20,7 @@ def _profileFunc(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc",
 
 
 
-    dataFile = "src/GPD/data/"+analysisVariables[0]+"/"+analysisVariables[1]+".csv"
+    dataFile = "src/GPD/data/"+analysisVariables[0]+"/H/"+analysisVariables[1]+".csv"
     flavourKeyList = analysisVariables[3]
     paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
 
@@ -32,4 +32,57 @@ def _profileFunc(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc",
     print("results:",results )
     print("################################")
     return results
+
+
+def _profileFuncHt(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc", [Flavour List] , X ]
+    print("Calculating profile functions: ")
+    if isinstance(x, np.ndarray):
+        x = x.tolist()
+        print("X: ",x)
+    else:
+        x = [float(x)]
+        print("X:", x)
+
+
+
+    dataFile = "src/GPD/data/"+analysisVariables[0]+"/Ht/"+analysisVariables[1]+".csv"
+    flavourKeyList = analysisVariables[3]
+    paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
+
+    results = {}
+    for flavours in flavourKeyList:
+        parameters = paramterDict[flavours]
+        results[flavours] = computationHandeler(parameters, x)
+
+    print("results:",results )
+    print("################################")
+    return results
+    
+
+def _profileFuncE(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc", [Flavour List] , X ]
+        print("Calculating profile functions: ")
+        if isinstance(x, np.ndarray):
+            x = x.tolist()
+            print("X: ",x)
+        else:
+            x = [float(x)]
+            print("X:", x)
+
+
+
+        dataFile = "src/GPD/data/"+analysisVariables[0]+"/E/"+analysisVariables[1]+".csv"
+        flavourKeyList = analysisVariables[3]
+        paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
+
+        results = {}
+        for flavours in flavourKeyList:
+            parameters = paramterDict[flavours]
+            results[flavours] = computationHandeler(parameters, x)
+
+        print("results:",results )
+        print("################################")
+        return results
+
+    
+
 

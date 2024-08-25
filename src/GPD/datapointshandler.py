@@ -76,39 +76,49 @@ def ListToFuncArgs(parsedValues):
 
 
 def GetDataPoints():
-    print("##############DATAPOINTS##################")
-    print("We have two scenarios of calculations.\n1. Single kinematic point Calculations.")
-    print("2. Multiple kinematic points")
-    scenario = input("Which scenario do you want to pick? Write down the scenario number: ")
+    print("\n" + "#" * 40)
+    print("           KINEMATIC DATA POINTS          ")
+    print("#" * 40 + "\n")
+    print("Choose your scenario for calculations:")
+    print("1. Single Kinematic Point Calculation")
+    print("2. Multiple Kinematic Points Calculation\n")
+    scenario = input("Please enter the scenario number (1 or 2): ")
 
     if scenario == "1":
         results = []
-        print("We need you to provide the values for x, Q2, t")
+        print("\nYou selected: Single Kinematic Point Calculation")
+        print("Please provide the values for x, Q², and t.")
         ah.AnalysisDefualtDataPoints("Single")
 
-        kinematicPoint = input("Write down the variables in the same sequence as explained with commas (,) seperating them: \n")
+        kinematicPoint = input("\nEnter the values in the following order separated by commas (x, Q², t): \n")
         Values = [value.strip() for value in kinematicPoint.split(",")]
         for items in Values:
             results.append(items)
-        print("The kinematic point is: ", results)
-        print("##############DATAPOINTS RETRIEVED SUCCESFULLY!##################")
+        print("\nThe kinematic point provided is:", results)
+        print("\n" + "#" * 40)
+        print("  KINEMATIC POINT RETRIEVED SUCCESSFULLY  ")
+        print("#" * 40 + "\n")
         return results
     
     elif scenario == "2":
-        print("In this scenario we need two of the three variables as constants, and one will be treated as an interval. ")
-        print("Now you have to enter the kinematic variables inside brackets and use a delimiter to seperate variables.")
-        print("examples: \n [x]|[Q2]| [t1,t2, points]  ")
-        print(" [x] | [Q2(1) , Q2(2), points]   | [t]")
-        print(" [x1,x2, points] | Q2 | t ")
+        print("\nYou selected: Multiple Kinematic Points Calculation")
+        print("In this scenario, two of the three variables will be constant, and one will vary over an interval.")
+        print("Please enter the kinematic variables using the following format:\n")
+        print("Examples:")
+        print("[x] | [Q²] | [t1, t2, points]")
+        print("[x] | [Q²(1), Q²(2), points] | [t]")
+        print("[x1, x2, points] | Q² | t\n")
         ah.AnalysisDefualtDataPoints("Multiple")
-        Values = input("Enter the corrosponding values with the notation explained before: \n")
+        Values = input("Enter the corresponding values with the notation explained above:\n")
         parsedValues = split_by_delimiter(Values)  ## A list of [x,Q2,t]
         print("Parsed values are: ", parsedValues)
         outputDatapoints = ListToFuncArgs(parsedValues)
-        print("Output data are: ", outputDatapoints)
-        print("##############DATAPOINTS RETRIEVED SUCCESFULLY!##################")
+        print("\nOutput data points:", outputDatapoints)
+        print("\n" + "#" * 40)
+        print("  DATA POINTS RETRIEVED SUCCESSFULLY  ")
+        print("#" * 40 + "\n")
         return outputDatapoints
     else:
-        print("Wrong input!")
+        print("\nInvalid input. Please enter 1 or 2.")
 
 

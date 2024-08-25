@@ -37,10 +37,10 @@ def GetAnalysisParameters():
     print(analysisList)
     #User choses an analysis
     userAnalysisInput = input("Which analysis do you want to use to perform the calculations? \n")
-    userAnalysisInput = userAnalysisInput.strip()
+    userAnalysisInput = userAnalysisInput.strip() 
     #Time to pick a parameter set
     csv_files=[]
-    for file_name in os.listdir("src/GPD/data/"+userAnalysisInput):
+    for file_name in os.listdir("src/GPD/data/"+userAnalysisInput+"/H"):
         # Check if the file is a CSV file
         if file_name.endswith('.csv'):
             csv_files.append(file_name.rsplit('.', 1)[0])
@@ -65,32 +65,76 @@ def GetAnalysisParameters():
     ################################
 
 
-    flavourList = []
+    flavourListH = []
     #csvFileName = "src/GPD/data/" + userAnalysisInput+ "/" +userPrameterSet+ ".csv"
-    with open("src/GPD/data/" + userAnalysisInput+ "/" +userGPDSetInput+ ".csv", mode='r') as file:
+    with open("src/GPD/data/" + userAnalysisInput+ "/H/" +userGPDSetInput+ ".csv", mode='r') as file:
         reader = csv.reader(file)
         for row in reader:
             # Append the first element of each row to the list
             if row:  # Ensure the row is not empty
-                flavourList.append(row[0])
-    print(flavourList)
-    userFlavourInputs = input("Which one of these flavour do you want to use? You can write A for all of them. ")
-    if userFlavourInputs == "A":
-        print("You Analysis summary is: \n",[userAnalysisInput, userGPDSetInput,userGPDList, flavourList ])
-        print("################################")
-        return [userAnalysisInput, userGPDSetInput,userGPDList, flavourList ]
-    else:
-        if ',' in userFlavourInputs:
-            userFlavourInputs = userFlavourInputs.split(',')
-            userFlavourInputs = [s.strip() for s in userFlavourInputs]
-            print("You Analysis summary is: \n",[userAnalysisInput,userGPDSetInput,userGPDList, userFlavourInputs])
-            print("################################")
-            return [userAnalysisInput,userGPDSetInput,userGPDList, userFlavourInputs]
+                flavourListH.append(row[0])
+
+
+    flavourListHt = []
+    #csvFileName = "src/GPD/data/" + userAnalysisInput+ "/" +userPrameterSet+ ".csv"
+    with open("src/GPD/data/" + userAnalysisInput+ "/Ht/" +userGPDSetInput+ ".csv", mode='r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            # Append the first element of each row to the list
+            if row:  # Ensure the row is not empty
+                flavourListHt.append(row[0])
+
+
+    flavourListE = []
+    #csvFileName = "src/GPD/data/" + userAnalysisInput+ "/" +userPrameterSet+ ".csv"
+    with open("src/GPD/data/" + userAnalysisInput+ "/E/" +userGPDSetInput+ ".csv", mode='r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            # Append the first element of each row to the list
+            if row:  # Ensure the row is not empty
+                flavourListE.append(row[0])
+
+
+    analysisHandlerOutput = []
+    #print("H flavour list: ", flavourListH)
+    #print("Ht flavour list: ",flavourListHt)
+    #print("E flavour list: ",flavourListE)
+    userHFlavourInputs = None
+    userHtFlavourInputs = None
+    userEFlavourInputs = None
+    if "H" in userGPDList:
+        print("H flavour list: ", flavourListH)
+        userHFlavourInputs = input("Which one of these flavour do you want to use? You can write A for all of them. ")
+        if userHFlavourInputs == "A":
+            userHFlavourInputs = flavourListH
         else:
-            userFlavourInputs = [userFlavourInputs.strip()]
-            print("You Analysis summary is: \n",[userAnalysisInput,userGPDSetInput, userGPDList, userFlavourInputs])
-            print("################################")
-            return [userAnalysisInput,userGPDSetInput, userGPDList, userFlavourInputs]
+            if ',' in userHFlavourInputs:
+                userHFlavourInputs = userFlavourInputs.split(',')
+                userHFlavourInputs = [s.strip() for s in userHFlavourInputs]
+
+    if "Ht" in userGPDList:
+        print("Ht flavour list: ", flavourListHt)
+        userHtFlavourInputs = input("Which one of these flavour do you want to use? You can write A for all of them. ")
+        if userHtFlavourInputs == "A":
+            userHtFlavourInputs = flavourListHt
+        else:
+            if ',' in userHtFlavourInputs:
+                userHtFlavourInputs = userFlavourInputs.split(',')
+                userHtFlavourInputs = [s.strip() for s in userHtFlavourInputs]
+
+    if "E" in userGPDList:
+        print("E flavour list: ", flavourListE)
+        userEFlavourInputs = input("Which one of these flavour do you want to use? You can write A for all of them. ")
+        if userEFlavourInputs == "A":
+            userEFlavourInputs = flavourListE
+        else:
+            if ',' in userEFlavourInputs:
+                userEFlavourInputs = userFlavourInputs.split(',')
+                userEFlavourInputs = [s.strip() for s in userEFlavourInputs]
+
+    analysisHandlerOutput= [userAnalysisInput, userGPDSetInput,userGPDList, userHFlavourInputs, userHtFlavourInputs, userEFlavourInputs ]
+    return analysisHandlerOutput
+
 
 
 
