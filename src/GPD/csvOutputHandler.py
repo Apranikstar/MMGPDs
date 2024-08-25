@@ -36,18 +36,23 @@ def save_dict_to_csv(data, filename):
 
 
 
-def write_list_to_csv( data, filename):
+def write_list_to_csv(data, filename):
     """
-    Write a list of lists to a CSV file.
+    Write a list of elements to a CSV file, each element in its own row (single column).
 
     Args:
         filename (str): The name of the CSV file to write.
-        data (list of lists): The data to write to the CSV file, where each inner list represents a row.
+        data (list): The data to write to the CSV file, where each element represents a row.
     """
     try:
-        with open("outputs/rawData/"+filename, 'w', newline='') as file:
+        # Ensure each element is wrapped in a list
+        data = [[element] for element in data]
+
+        with open("outputs/rawData/" + filename, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerows(data)
+
         print(f"Data successfully written to {filename}")
     except Exception as e:
         print(f"An error occurred: {e}")
+

@@ -36,16 +36,16 @@ def GPDMethod():
         csvOutputHandler.save_dict_to_csv(pdfHFunction, "pdfHFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHFunction, "profileHFunction.csv")
         csvOutputHandler.save_dict_to_csv(H, "H.csv")
-        csvOutputHandler.write_list_to_csv(analysisDataPoints,"DataPointsX.csv")
+        csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
         plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
 
 
 
 
 
-
+    # Check for analysis variables for each GPD
     if "Ht" in analysisVariables[2]:
-        pdfHtFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[3], analysisPPDFSET)
+        pdfHtFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[4], analysisPPDFSET)
         profileHtFunction = computeProfFunc._profileFuncHt( analysisVariables, analysisDataPoints[0])
         Ht = computeGPD.computeHt(pdfHFunction, profileHFunction, analysisDataPoints[2],analysisVariables[4])
         csvOutputHandler.save_dict_to_csv(pdfHtFunction, "pdfHtFunction.csv")
@@ -64,55 +64,6 @@ def GPDMethod():
     
     
     print("Data are stored in /outputs/Rawdata\n")
-
-
     print("################################")
-    print("################Closed properly################")
-
-    # Calculating pdf function q()
-    # Compute E PDF HERERE!!!!!!!
-    #print("UPDF at forward limit is:", pdfHFunction) #pdfFunction returns a dictionary of flavours "uv", "dv",etc
-    #print("################")
-    #pdfHtFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[3], analysisPPDFSET)
-    #print("PPDF at forward limit is:", pdfHtFunction) #pdfFunction returns a dictionary of flavours "uv", "dv",etc
-    #print("################")
-    ################
-    # Calculating Profile Function f()
-    #profileHFunction = computeProfFunc._profileFuncH( analysisVariables, analysisDataPoints[0])
-    #profileHtFunction = computeProfFunc._profileFuncHt( analysisVariables, analysisDataPoints[0])
-    #profileEFunction = computeProfFunc._profileFuncE( analysisVariables, analysisDataPoints[0])
-
-
-    #print("Profile Functions was Successfully Calculated ")
-    ################
-    # computeH(pdfHFunction, profileHFunction, t, flavourslist)
-    #H = computeGPD.computeH(pdfHFunction, profileHFunction, analysisDataPoints[2],analysisVariables[3])
-    #Ht = computeGPD.computeHt(pdfHFunction, profileHFunction, analysisDataPoints[2],analysisVariables[4])
-
-    ################
-    #csvOutputHandler.save_dict_to_csv(pdfHFunction, "pdfHFunction.csv")
-    #csvOutputHandler.save_dict_to_csv(pdfHtFunction, "pdfHtFunction.csv")
-    #csvOutputHandler.save_dict_to_csv(profileHFunction, "profileHFunction.csv")
-    #csvOutputHandler.save_dict_to_csv(profileHtFunction, "profileHtFunction.csv")
-    #csvOutputHandler.save_dict_to_csv(profileEFunction, "profileEFunction.csv")
-    #csvOutputHandler.save_dict_to_csv(H, "H.csv")
-    #csvOutputHandler.save_dict_to_csv(Ht, "Ht.csv")
-    #csvOutputHandler.write_list_to_csv(analysisDataPoints,"DataPointsX.csv")
-    #print("Data are stored in /outputs/Rawdata\n")
-    ################
-    #plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
-    #plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" ,output_dir='outputs/plots' )
-
-    ################
-    # Compute Ht ---> note : use PPDF function
-    
-    ##### Note that for our line of work we need Q2 and t to be constant and x to be the variable.
-    ## WRITE A PRINT TO TO CITE THE CORRESPONDING PAPERS
-    # Get Kinematic points singular or multiple
-    # calculate _PDF 
-    # calculate profile function
-    #calculate GPDs
-    print("################################")
-    #time.sleep(5)
     print("################Closed properly################")
 
