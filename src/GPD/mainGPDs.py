@@ -18,13 +18,12 @@ def GPDMethod():
     systemPDFINFO = lhapdfhandler.GetLHAPDF() # is a list of [path,directories]
     ################# 
     analysisVariables = analysishandler.GetAnalysisParameters() # Returns ["Analysis", "GPDs set","GPD to calc", [Flavour List] ]
-    ### ADD GPD TYPE
+    
     ################# 
     
     analysisUPDFSET = lhapdfhandler.GetAnalysisUPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
     analysisPPDFSET = lhapdfhandler.GetAnalysisPPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
 
-    #------> Get UPDF here
 
     #################
     analysisDataPoints = dp.GetDataPoints() # x , Q2 , t
@@ -36,8 +35,11 @@ def GPDMethod():
         csvOutputHandler.save_dict_to_csv(pdfHFunction, "pdfHFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHFunction, "profileHFunction.csv")
         csvOutputHandler.save_dict_to_csv(H, "H.csv")
-        csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
-        plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
+        if isinstance(analysisDataPoints[0],str):
+            pass
+        else:
+            csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
 
 
 
@@ -51,7 +53,10 @@ def GPDMethod():
         csvOutputHandler.save_dict_to_csv(pdfHtFunction, "pdfHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHtFunction, "profileHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(Ht, "Ht.csv")
-        plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" ,output_dir='outputs/plots' )
+        if isinstance(analysisDataPoints[0],str):
+            pass
+        else:
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" ,output_dir='outputs/plots' )
 
 
 

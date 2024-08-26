@@ -51,6 +51,9 @@ def _PDF(x,Q2, flavourList, analysisPDFSET):
         Q2 = float(Q2)
         print("Q2: ",Q2)
 
+    if isinstance(flavourList,str):
+        flavourList = [flavourList]
+
     results = {}
     for flavour in flavourList:
         if flavour == "uv":
@@ -65,6 +68,7 @@ def _PDF(x,Q2, flavourList, analysisPDFSET):
             results["dbar"]= _dbar(x,analysisPDFSET,Q2)
         elif flavour =="sbar":
             results["sbar"]=  _sbar(x,analysisPDFSET,Q2)
+    print(results)
     print("####################PDF Calculated Successfuly!###################")
 
     return results

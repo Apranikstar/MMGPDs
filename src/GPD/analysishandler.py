@@ -132,7 +132,7 @@ def GetAnalysisParameters():
                 userEFlavourInputs = userFlavourInputs.split(',')
                 userEFlavourInputs = [s.strip() for s in userEFlavourInputs]
 
-    analysisHandlerOutput= [userAnalysisInput, userGPDSetInput,userGPDList, userHFlavourInputs, userHtFlavourInputs, userEFlavourInputs ]
+    analysisHandlerOutput= [userAnalysisInput, userGPDSetInput, userGPDList, userHFlavourInputs, userHtFlavourInputs, userEFlavourInputs ]
     return analysisHandlerOutput
 
 

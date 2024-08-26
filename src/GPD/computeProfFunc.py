@@ -18,10 +18,14 @@ def _profileFuncH(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc"
         x = [float(x)]
         print("X:", x)
 
+    
+
 
 
     dataFile = "src/GPD/data/"+analysisVariables[0]+"/H/"+analysisVariables[1]+".csv"
     flavourKeyList = analysisVariables[3]
+    if isinstance(flavourKeyList,str):
+        flavourKeyList = [flavourKeyList]
     paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
 
     results = {}
@@ -46,7 +50,9 @@ def _profileFuncHt(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc
 
 
     dataFile = "src/GPD/data/"+analysisVariables[0]+"/Ht/"+analysisVariables[1]+".csv"
-    flavourKeyList = analysisVariables[3]
+    flavourKeyList = analysisVariables[4]
+    if isinstance(flavourKeyList,str):
+        flavourKeyList = [flavourKeyList]
     paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
 
     results = {}
@@ -60,28 +66,30 @@ def _profileFuncHt(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc
     
 
 def _profileFuncE(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc", [Flavour List] , X ]
-        print("Calculating profile functions: ")
-        if isinstance(x, np.ndarray):
-            x = x.tolist()
-            print("X: ",x)
-        else:
-            x = [float(x)]
-            print("X:", x)
+    print("Calculating profile functions: ")
+    if isinstance(x, np.ndarray):
+        x = x.tolist()
+        print("X: ",x)
+    else:
+        x = [float(x)]
+        print("X:", x)
 
 
 
-        dataFile = "src/GPD/data/"+analysisVariables[0]+"/E/"+analysisVariables[1]+".csv"
-        flavourKeyList = analysisVariables[3]
-        paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
+    dataFile = "src/GPD/data/"+analysisVariables[0]+"/E/"+analysisVariables[1]+".csv"
+    flavourKeyList = analysisVariables[5]
+    if isinstance(flavourKeyList,str):
+        flavourKeyList = [flavourKeyList]
+    paramterDict = csvdataparser.get_flavour_values(dataFile, flavourKeyList) # returns a dict: dict["flavours"] = [aprime,B,A]
 
-        results = {}
-        for flavours in flavourKeyList:
-            parameters = paramterDict[flavours]
-            results[flavours] = computationHandeler(parameters, x)
+    results = {}
+    for flavours in flavourKeyList:
+        parameters = paramterDict[flavours]
+        results[flavours] = computationHandeler(parameters, x)
 
-        print("results:",results )
-        print("################################")
-        return results
+    print("results:",results )
+    print("################################")
+    return results
 
     
 
