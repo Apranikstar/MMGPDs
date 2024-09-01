@@ -11,6 +11,7 @@ import src.GPD.computeProfFunc as computeProfFunc
 import src.GPD.computeGPD as computeGPD
 import src.GPD.csvOutputHandler as csvOutputHandler
 import src.GPD.plotHandler as plotHandler
+import src.GPD.computePDFEFunction as computePDFEFunction
 
 ################# 
 def GPDMethod():
@@ -35,11 +36,14 @@ def GPDMethod():
         csvOutputHandler.save_dict_to_csv(pdfHFunction, "pdfHFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHFunction, "profileHFunction.csv")
         csvOutputHandler.save_dict_to_csv(H, "H.csv")
+        
         if isinstance(analysisDataPoints[0],str):
             pass
         else:
             csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
             plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
+        
+
 
 
 
@@ -53,21 +57,38 @@ def GPDMethod():
         csvOutputHandler.save_dict_to_csv(pdfHtFunction, "pdfHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHtFunction, "profileHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(Ht, "Ht.csv")
+        
         if isinstance(analysisDataPoints[0],str):
             pass
         else:
+            csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
             plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" ,output_dir='outputs/plots' )
+        
 
 
 
+
+### ADD A LINE TO CHECK IF DATAPOINT X EXISTS 
 
 
     if "E" in analysisVariables[2]:
         profileEFunction = computeProfFunc._profileFuncE( analysisVariables, analysisDataPoints[0])
+        pdfEFunction = computePDFEFunction.ComputePDFEFunction(analysisVariables, analysisDataPoints[0])
+        E = computeGPD.computeE(pdfEFunction, profileEFunction, analysisDataPoints[2],analysisVariables[5])
+        csvOutputHandler.save_dict_to_csv(pdfEFunction, "pdfEFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileEFunction, "profileEFunction.csv")
+        csvOutputHandler.save_dict_to_csv(E, "E.csv")
+        
+        if isinstance(analysisDataPoints[0],str):
+            pass
+        else:
+            csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/E.csv", "E" ,output_dir='outputs/plots' )
+        
 
-    
-    
+        
+    print("All Calculations due to the following analysis \n: ", analysisVariables , "\n is complete!")
+    print("Q2= ", analysisDataPoints[1], "t = ", analysisDataPoints[2])
     print("Data are stored in /outputs/Rawdata\n")
     print("################################")
     print("################Closed properly################")
