@@ -20,16 +20,10 @@ def GPDMethod():
     ################# 
     analysisVariables = analysishandler.GetAnalysisParameters() # Returns ["Analysis", "GPDs set","GPD to calc", [Flavour List] ]
     
-    ################# 
-    
-    analysisUPDFSET = lhapdfhandler.GetAnalysisUPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
-    analysisPPDFSET = lhapdfhandler.GetAnalysisPPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
-
-
-    #################
     analysisDataPoints = dp.GetDataPoints() # x , Q2 , t
     ################
     if "H" in analysisVariables[2]:
+        analysisUPDFSET = lhapdfhandler.GetAnalysisUPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
         pdfHFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[3], analysisUPDFSET)
         profileHFunction = computeProfFunc._profileFuncH( analysisVariables, analysisDataPoints[0])
         H = computeGPD.computeH(pdfHFunction, profileHFunction, analysisDataPoints[2],analysisVariables[3])
@@ -51,9 +45,10 @@ def GPDMethod():
 
     # Check for analysis variables for each GPD
     if "Ht" in analysisVariables[2]:
+        analysisPPDFSET = lhapdfhandler.GetAnalysisPPDF(analysisVariables[0]) # Returns lhapdf.mkPDF("AnalysisSpecificPDF",0)
         pdfHtFunction = computePDFFunction._PDF(analysisDataPoints[0],analysisDataPoints[1], analysisVariables[4], analysisPPDFSET)
         profileHtFunction = computeProfFunc._profileFuncHt( analysisVariables, analysisDataPoints[0])
-        Ht = computeGPD.computeHt(pdfHFunction, profileHFunction, analysisDataPoints[2],analysisVariables[4])
+        Ht = computeGPD.computeHt(pdfHtFunction, profileHtFunction, analysisDataPoints[2],analysisVariables[4])
         csvOutputHandler.save_dict_to_csv(pdfHtFunction, "pdfHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(profileHtFunction, "profileHtFunction.csv")
         csvOutputHandler.save_dict_to_csv(Ht, "Ht.csv")

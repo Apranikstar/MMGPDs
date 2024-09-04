@@ -124,6 +124,7 @@ def GetAnalysisParameters():
 
     if "E" in userGPDList:
         print("E flavour list: ", flavourListE)
+        print("Note that for GPD E the ubar and dbar are equal to zero so uv = u and dv = d")
         userEFlavourInputs = input("Which one of these flavour do you want to use? You can write A for all of them. ")
         if userEFlavourInputs == "A":
             userEFlavourInputs = flavourListE

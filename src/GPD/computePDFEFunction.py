@@ -34,7 +34,7 @@ def ComputePDFEFunction(analysisVariables, x):
     print("Normalization Factors are: ", N)
 
     E = {}
-    for flavours in flavourKeyList:
-        E[flavours] = k[flavours] * N[flavours]  * np.power(x,alpha[flavours]) * np.power(1-x,beta[flavours]) * (1+ gamma[flavours] * np.sqrt(x))
+    for flavours in flavourKeyList: # note that we added a x to make the final results xE[flavour]
+        E[flavours] = x * k[flavours] * N[flavours]  * np.power(x,-alpha[flavours]) * np.power(1-x,beta[flavours]) * (1+ gamma[flavours] * np.sqrt(x))
     print("GPD E is equal to: ")
     return E

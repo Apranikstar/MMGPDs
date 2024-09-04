@@ -4,7 +4,7 @@ import src.GPD.csvdataparser as csvdataparser
 def computationHandeler(parameters, x):
     results =[]
     for points in x:
-        funcAtPoint = parameters[0] * np.power(1 - points, 3) * np.log10(1/points) + parameters[1] * np.power(1 - points, 3) + parameters[2] * points * np.power(1-points,2)
+        funcAtPoint = parameters[0] * np.power(1 - points, 3) * np.log(1/points) + parameters[1] * np.power(1 - points, 3) + parameters[2] * points * np.power(1-points,2)
         results.append(funcAtPoint)
     return results
 
