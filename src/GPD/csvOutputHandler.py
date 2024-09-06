@@ -56,3 +56,4 @@ def write_list_to_csv(data, filename):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+ 

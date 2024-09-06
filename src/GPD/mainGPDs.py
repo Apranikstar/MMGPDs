@@ -35,7 +35,7 @@ def GPDMethod():
             pass
         else:
             csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
-            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H", output_dir='outputs/plots')
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/H.csv", "H",analysisDataPoints[2] ,output_dir='outputs/plots/H')
         
 
 
@@ -57,7 +57,7 @@ def GPDMethod():
             pass
         else:
             csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
-            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" ,output_dir='outputs/plots' )
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/Ht.csv", "Ht" , analysisDataPoints[2], output_dir='outputs/plots/Ht', )
         
 
 
@@ -78,13 +78,13 @@ def GPDMethod():
             pass
         else:
             csvOutputHandler.write_list_to_csv(analysisDataPoints[0],"DataPointsX.csv")
-            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/E.csv", "E" ,output_dir='outputs/plots' )
+            plotHandler.plot_and_save("outputs/Rawdata/DataPointsX.csv","outputs/Rawdata/E.csv", "E",analysisDataPoints[2] ,output_dir='outputs/plots/E' )
         
 
         
     print("All Calculations due to the following analysis \n: ", analysisVariables , "\n is complete!")
     print("Q2= ", analysisDataPoints[1], "t = ", analysisDataPoints[2])
-    print("Data are stored in /outputs/Rawdata\n")
+    print("Data are stored in /outputs/Rawdata\n /outputs/plots")
     print("################################")
     print("################Closed properly################")
 

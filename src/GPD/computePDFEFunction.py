@@ -9,6 +9,14 @@ def integrand(x, alpha_q, beta_q, gamma_q):
 
 
 def ComputePDFEFunction(analysisVariables, x):
+    if isinstance(x, str):
+        x = np.array([float(x)])
+    elif isinstance(x, float):
+        x = np.array([x])
+    elif isinstance(x, int):
+        x = np.array([x])
+
+
     k={}
     k["uv"]=1.67
     k["dv"]=-2.03
@@ -36,5 +44,5 @@ def ComputePDFEFunction(analysisVariables, x):
     E = {}
     for flavours in flavourKeyList: # note that we added a x to make the final results xE[flavour]
         E[flavours] = x * k[flavours] * N[flavours]  * np.power(x,-alpha[flavours]) * np.power(1-x,beta[flavours]) * (1+ gamma[flavours] * np.sqrt(x))
-    print("GPD E is equal to: ")
+    ###print("GPD E is equal to: ")
     return E

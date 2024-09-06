@@ -13,10 +13,10 @@ def _profileFuncH(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc"
     print("Calculating profile functions: ")
     if isinstance(x, np.ndarray):
         x = x.tolist()
-        print("X: ",x)
+        ###print("X: ",x)
     else:
         x = [float(x)]
-        print("X:", x)
+        ###print("X:", x)
 
     
 
@@ -33,7 +33,7 @@ def _profileFuncH(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc"
         parameters = paramterDict[flavours]
         results[flavours] = computationHandeler(parameters, x)
 
-    print("results:",results )
+    ###print("results:",results )
     print("################################")
     return results
 
@@ -42,10 +42,10 @@ def _profileFuncHt(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc
     print("Calculating profile functions: ")
     if isinstance(x, np.ndarray):
         x = x.tolist()
-        print("X: ",x)
+        ###print("X: ",x)
     else:
         x = [float(x)]
-        print("X:", x)
+        ###print("X:", x)
 
 
 
@@ -60,7 +60,7 @@ def _profileFuncHt(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc
         parameters = paramterDict[flavours]
         results[flavours] = computationHandeler(parameters, x)
 
-    print("results:",results )
+    ###print("results:",results )
     print("################################")
     return results
     
@@ -69,10 +69,10 @@ def _profileFuncE(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc"
     print("Calculating profile functions: ")
     if isinstance(x, np.ndarray):
         x = x.tolist()
-        print("X: ",x)
+        ###print("X: ",x)
     else:
         x = [float(x)]
-        print("X:", x)
+        ###print("X:", x)
 
 
 
@@ -87,7 +87,7 @@ def _profileFuncE(analysisVariables, x): #["Analysis", "GPDs set", "GPD to calc"
         parameters = paramterDict[flavours]
         results[flavours] = computationHandeler(parameters, x)
 
-    print("results:",results )
+    ###print("results:",results )
     print("################################")
     return results
 

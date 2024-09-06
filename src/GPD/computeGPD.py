@@ -30,7 +30,7 @@ def computeH(pdfFunction, profileFunction, t, flavourslist):
     #for key in resultDict:
     #    resultDict[key] = resultDict[key].tolist()
 
-    print("H GPD = \n ", resultDict)
+    ###print("H GPD = \n ", resultDict)
     return resultDict
     
 
@@ -62,7 +62,7 @@ def computeHt(pdfFunction, profileFunction, t, flavourslist):
     #for key in resultDict:
     #    resultDict[key] = resultDict[key].tolist()
 
-    print("Ht GPD = \n ", resultDict)
+    ###print("Ht GPD = \n ", resultDict)
     return resultDict
 
 
@@ -94,5 +94,5 @@ def computeE(pdfFunction, profileFunction, t, flavourslist):
     #for key in resultDict:
     #    resultDict[key] = resultDict[key].tolist()
 
-    print("Ht GPD = \n ", resultDict)
+    ###print("Ht GPD = \n ", resultDict)
     return resultDict

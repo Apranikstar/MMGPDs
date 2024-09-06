@@ -111,9 +111,9 @@ def GetDataPoints():
         ah.AnalysisDefualtDataPoints("Multiple")
         Values = input("Enter the corresponding values with the notation explained above:\n")
         parsedValues = split_by_delimiter(Values)  ## A list of [x,Q2,t]
-        print("Parsed values are: ", parsedValues)
+        ###print("Parsed values are: ", parsedValues)
         outputDatapoints = ListToFuncArgs(parsedValues)
-        print("\nOutput data points:", outputDatapoints)
+        ###print("\nOutput data points:", outputDatapoints)
         print("\n" + "#" * 40)
         print("  DATA POINTS RETRIEVED SUCCESSFULLY  ")
         print("#" * 40 + "\n")
