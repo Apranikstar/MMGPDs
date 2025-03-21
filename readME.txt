@@ -1,4 +1,5 @@
-![MMGPDs Data](https://github.com/Apranikstar/MMGPDs/blob/main/src/data/mmgpds.png?raw=true)
+![MMGPDs Data](https://raw.githubusercontent.com/Apranikstar/MMGPDs/main/src/data/mmgpds.png)
+
 # MMGPDs Analysis ToolChain.
 ## More info:
 PHYSICAL REVIEW D 107, 096005 (2023)
