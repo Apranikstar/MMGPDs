@@ -210,22 +210,29 @@ class EMObservables:
         if 2 == ID:
             #tau = np.divide(-t , 4 * np.power(self.__m_n,2)) 
             return   (np.array([episilon[i] * np.power(quad(F1F2GE,1e-9,1, args=( 2,self.__m_n,t[i]), limit = 250)[0],2) for i in range(len(t))]))+np.array([ np.divide(-t[i] , 4 * np.power(self.__m_n,2)) * np.power(quad(F1F2GM,1e-9,1, args=( 2,t[i]), limit = 250)[0],2) for i in range(len(t))  ])
-##################################  PRad SigTot ##################################
-    def SigTot(self, ID, t, #mu2, 
-           H_aprime_uv, H_aprime_dv, H_aprime_sv,
-           H_B_uv, H_B_dv, H_B_sv,
-           H_A_uv, H_A_dv, H_A_sv,
-           E_aprime_uv, E_aprime_dv, E_aprime_sv,
-           E_B_uv, E_B_dv, E_B_sv,
-           E_A_uv, E_A_dv, E_A_sv,
-           E_alpha_uv, E_alpha_dv, E_alpha_sv,
-           E_beta_uv, E_beta_dv, E_beta_sv,
-           E_gamma_uv, E_gamma_dv,E_gamma_sv,
-           Ks,
-           theta,El  
-           ):
+
+
+
+
+    def SigTot(
+        self,
+        ID,
+        t,
+        H_aprime_uv, H_aprime_dv, H_aprime_sv,
+        H_B_uv, H_B_dv, H_B_sv,
+        H_A_uv, H_A_dv, H_A_sv,
+        E_aprime_uv, E_aprime_dv, E_aprime_sv,
+        E_B_uv, E_B_dv, E_B_sv,
+        E_A_uv, E_A_dv, E_A_sv,
+        E_alpha_uv, E_alpha_dv, E_alpha_sv,
+        E_beta_uv, E_beta_dv, E_beta_sv,
+        E_gamma_uv, E_gamma_dv, E_gamma_sv,
+        Ks,
+        theta,
+        El,
+    ):
         self.__ks = Ks
-        ### Flavor Form Factors
+
         def F1(x,ID,t):
             F1uv =  self.__H__(x, self.__mu2,t, H_aprime_uv, H_B_uv, H_A_uv,"uv")
             F1dv =  self.__H__(x, self.__mu2,t,H_aprime_dv, H_B_dv, H_A_dv, "dv")
@@ -239,7 +246,7 @@ class EMObservables:
         def F2(x,ID,t):
             F2uv =  self.__E__(x, t, E_aprime_uv, E_B_uv, E_A_uv, E_alpha_uv, E_beta_uv, E_gamma_uv, "uv")
             F2dv =  self.__E__(x, t, E_aprime_dv, E_B_dv, E_A_dv, E_alpha_dv, E_beta_dv, E_gamma_dv, "dv")
-            F2sv = self.__E__(x, t, E_aprime_sv, E_B_sv, E_A_sv, E_alpha_sv, E_beta_sv, E_gamma_sv,"sv")
+            F2sv =  self.__E__(x, t, E_aprime_sv, E_B_sv, E_A_sv, E_alpha_sv, E_beta_sv, E_gamma_sv, "sv")
             if 1 == ID:
                 return self.__chargeUV * F2uv + self.__chargeDV * F2dv + self.__chargeSV * F2sv
             if 2 == ID:
@@ -250,37 +257,35 @@ class EMObservables:
         def F1F2GM(x,ID,t):
             return F1(x,ID,t) + F2(x,ID,t)
 
-
-        if 1 == ID:
-            tau = np.divide(self.__mu2 , 4 * np.power(self.__m_p,2))
-            theta_rad = theta * np.pi / 180.0 
-            episilon = 1.0 / (1 + 2 * (1 + tau) * np.tan(theta_rad / 2.0)**2)
-            denominator = np.divide(1, episilon * (1 + tau)) 
-            El_gev = El / 1000.0 
-            epl_gev = self.__mu2 / (4 * El_gev * np.sin(theta_rad / 2.0)**2)
-            conv = 3.893793e-1 
+        if ID == 1:
+            tau = self.__mu2 / (4 * self.__m_p**2)
+            theta_rad = np.radians(theta)
+            epsilon = 1.0 / (1 + 2 * (1 + tau) * np.tan(theta_rad / 2.0) ** 2)
+            denominator = np.array([1 / (epsilon[i] * (1 + tau)) for i in range(len(epsilon))])
+            
+            El_gev = El / 1000.0
+            epl_gev = El_gev / (1 +    np.divide(2*El_gev, self.__m_p)* np.sin(theta_rad / 2.0) ** 2 )
+            conv = 1/3.893793
             sig_mott = (
-            self.__alpha_qed**2 / (4 * El_gev**2 * np.sin(theta_rad / 2.0)**4)
-            * epl_gev / El_gev * np.cos(theta_rad / 2.0)**2
+                np.divide(self.__alpha_qed**2 , (4 * El_gev**2 * np.sin(theta_rad / 2.0) ** 4))
+                * (epl_gev / El_gev)
+                * np.cos(theta_rad / 2.0) ** 2
             )
+            
             dMott = conv * sig_mott
-            return  dMott * denominator * (np.array([episilon * quad(F1F2GE,1e-9,1, args=( 1,self.__m_p,t[i]), limit = 250)[0] for i in range(len(t))]))+np.array([tau * quad(F1F2GM,1e-9,1, args=( 1,t[i]), limit = 250)[0] for i in range(len(t))  ])
 
-        if 2 == ID:
-            tau = np.divide(self.__mu2 , 4 * np.power(self.__m_n,2))
-            theta_rad = theta * np.pi / 180.0 
-            episilon = 1.0 / (1 + 2 * (1 + tau) * np.tan(theta_rad / 2.0)**2)
-            denominator = np.divide(1, episilon * (1 + tau))
-            El_gev = El / 1000.0 
-            epl_gev = self.__mu2 / (4 * El_gev * np.sin(theta_rad / 2.0)**2)
-            conv = 3.893793e-1 
-            sig_mott = (
-            self.__alpha_qed**2 / (4 * El_gev**2 * np.sin(theta_rad / 2.0)**4)
-            * epl_gev / El_gev * np.cos(theta_rad / 2.0)**2
-            ) 
-            dMott = sig_mott * conv
-            return  dMott * denominator * (np.array([quad(F1F2GE,1e-9,1, args=( 2,self.__m_n,t[i]), limit = 250)[0]for i in range(len(t))]))+np.array([quad(F1F2GM,1e-9,1, args=( 2,t[i]), limit = 250)[0] for i in range(len(t))  ])
-              
+            integral_GE = np.array([
+                quad(F1F2GE, 1e-9, 1, args=(1, self.__m_p, t[i]), limit=250)[0]
+                for i in range(len(t))
+            ])
+            integral_GM = np.array([
+                quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=250)[0]
+                for i in range(len(t))
+            ])
+            return np.array([dMott[i] * denominator[i] *   (epsilon[i] * integral_GE[i]**2    +    tau * integral_GM[i]**2) for i in range(len(t))])
+                
+            
+
 
 ##################################  Subroutines ##################################
 
