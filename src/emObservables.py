@@ -256,33 +256,44 @@ class EMObservables:
             return (F1(x,ID,t) +  np.divide(t,4 * m**2) * F2(x,ID,t))
         def F1F2GM(x,ID,t):
             return F1(x,ID,t) + F2(x,ID,t)
-
-        if ID == 1:
-            tau = self.__mu2 / (4 * self.__m_p**2)
-            theta_rad = np.radians(theta)
-            epsilon = 1.0 / (1 + 2 * (1 + tau) * np.tan(theta_rad / 2.0) ** 2)
-            denominator = np.array([1 / (epsilon[i] * (1 + tau)) for i in range(len(epsilon))])
+        t = np.array(t)
+        if 1 == ID:
+            mm = self.__m_p
+        elif 2 == ID:
+            mm = self.__m_n
             
-            El_gev = El / 1000.0
-            epl_gev = El_gev / (1 +    np.divide(2*El_gev, self.__m_p)* np.sin(theta_rad / 2.0) ** 2 )
-            conv = 1/3.893793
-            sig_mott = (
-                np.divide(self.__alpha_qed**2 , (4 * El_gev**2 * np.sin(theta_rad / 2.0) ** 4))
-                * (epl_gev / El_gev)
-                * np.cos(theta_rad / 2.0) ** 2
-            )
-            
-            dMott = conv * sig_mott
+        tau = np.array([ -t[i]/ (4 * mm**2) for  i in range(len(t))])
+        theta_rad = np.radians(theta)
+        epsilon = np.array([1.0 / (1 + 2 * (1 + tau[i]) * np.tan(theta_rad[i] / 2.0) ** 2)for i in range(len(tau))])
 
-            integral_GE = np.array([
-                quad(F1F2GE, 1e-9, 1, args=(1, self.__m_p, t[i]), limit=250)[0]
-                for i in range(len(t))
-            ])
-            integral_GM = np.array([
-                quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=250)[0]
-                for i in range(len(t))
-            ])
-            return np.array([dMott[i] * denominator[i] *   (epsilon[i] * integral_GE[i]**2    +    tau * integral_GM[i]**2) for i in range(len(t))])
+        denominator = np.array([1 / (epsilon[i] * (1 + tau[i])) for i in range(len(epsilon))])
+            
+        El_gev = El / 1000.0
+        #original
+        #epl_gev = El_gev / (1 +    np.divide(2*El_gev, mm)* np.sin(theta_rad / 2.0) ** 2 )
+        #variations
+        #EplGeV= Qsq/(4*ElGeV*dsin(Ttheta/2)**2)
+        #epl_gev = np.array([np.divide(-t[i], 4*El_gev * np.sin(theta_rad[i] / 2.0) ** 2)   for i in range(len(t))])
+        #original fixed:
+        epl_gev = np.array([El_gev / (1 +    np.divide(2*El_gev, mm)* np.sin(theta_rad[i] / 2.0) ** 2 ) for i in range(len(theta_rad))])
+        conv = 1/3.893793
+        sig_mott = np.array([(
+            np.divide(self.__alpha_qed**2 , (4 * El_gev**2 * np.sin(theta_rad[i] / 2.0) ** 4))
+            * (epl_gev[i] / El_gev)
+            * np.cos(theta_rad[i] / 2.0) ** 2
+        ) for i in range(len(epl_gev))])
+            
+        dMott = conv * sig_mott
+
+        integral_GE = np.array([
+            quad(F1F2GE, 1e-9, 1, args=(1, mm, t[i]), limit=500)[0]
+            for i in range(len(t))
+        ])
+        integral_GM = np.array([
+            quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=500)[0]
+            for i in range(len(t))
+        ])
+        return np.array([dMott[i] * denominator[i] *   (epsilon[i] * integral_GE[i]**2    +    tau[i] * integral_GM[i]**2) for i in range(len(t))])
                 
             
 
