@@ -232,7 +232,7 @@ class EMObservables:
         El,
     ):
         self.__ks = Ks
-
+        ### Flavor Form Factors
         def F1(x,ID,t):
             F1uv =  self.__H__(x, self.__mu2,t, H_aprime_uv, H_B_uv, H_A_uv,"uv")
             F1dv =  self.__H__(x, self.__mu2,t,H_aprime_dv, H_B_dv, H_A_dv, "dv")
@@ -256,45 +256,43 @@ class EMObservables:
             return (F1(x,ID,t) +  np.divide(t,4 * m**2) * F2(x,ID,t))
         def F1F2GM(x,ID,t):
             return F1(x,ID,t) + F2(x,ID,t)
-        t = np.array(t)
+        
         if 1 == ID:
-            mm = self.__m_p
-        elif 2 == ID:
-            mm = self.__m_n
-            
-        tau = np.array([ -t[i]/ (4 * mm**2) for  i in range(len(t))])
-        theta_rad = np.radians(theta)
-        epsilon = np.array([1.0 / (1 + 2 * (1 + tau[i]) * np.tan(theta_rad[i] / 2.0) ** 2)for i in range(len(tau))])
+                Mass = self.__m_p
+        if 2 == ID:
+                Mass = self.__m_n
 
-        denominator = np.array([1 / (epsilon[i] * (1 + tau[i])) for i in range(len(epsilon))])
-            
-        El_gev = El / 1000.0
-        #original
-        #epl_gev = El_gev / (1 +    np.divide(2*El_gev, mm)* np.sin(theta_rad / 2.0) ** 2 )
-        #variations
-        #EplGeV= Qsq/(4*ElGeV*dsin(Ttheta/2)**2)
-        #epl_gev = np.array([np.divide(-t[i], 4*El_gev * np.sin(theta_rad[i] / 2.0) ** 2)   for i in range(len(t))])
-        #original fixed:
-        epl_gev = np.array([El_gev / (1 +    np.divide(2*El_gev, mm)* np.sin(theta_rad[i] / 2.0) ** 2 ) for i in range(len(theta_rad))])
-        conv = 1/3.893793
-        sig_mott = np.array([(
-            np.divide(self.__alpha_qed**2 , (4 * El_gev**2 * np.sin(theta_rad[i] / 2.0) ** 4))
-            * (epl_gev[i] / El_gev)
-            * np.cos(theta_rad[i] / 2.0) ** 2
-        ) for i in range(len(epl_gev))])
-            
-        dMott = conv * sig_mott
-
-        integral_GE = np.array([
-            quad(F1F2GE, 1e-9, 1, args=(1, mm, t[i]), limit=500)[0]
+        conv = 3.893793e-1  # Conversion factor from GeV^-2 to mb
+          # Proton mass in GeV
+        alphaQED = self.__alpha_qed
+        PI = np.pi
+        # Forcing formatting
+        theta = np.array(theta)
+        t = np.array(t)
+        GE = np.array([
+            quad(F1F2GE, 1e-9, 1, args=(1, Mass, t[i]), limit=500)[0]
             for i in range(len(t))
-        ])
-        integral_GM = np.array([
+            ])
+        GM = np.array([
             quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=500)[0]
             for i in range(len(t))
-        ])
-        return np.array([dMott[i] * denominator[i] *   (epsilon[i] * integral_GE[i]**2    +    tau[i] * integral_GM[i]**2) for i in range(len(t))])
-                
+            ])
+        tau = np.array([-t[i] / (4.0 * Mass ** 2) for i in range(len(t))])
+        Ttheta = theta * PI / 180.0  # Convert degrees to radians
+        eps = np.array([1.0 / (1 + 2 * (1 + tau[i]) * np.tan(Ttheta[i] / 2.0) ** 2) for i in range(len(tau))])
+        ElGeV = El / 1000.0
+        EplGeV = np.array([-t[i] / (4 * ElGeV * np.sin(Ttheta[i] / 2.0) ** 2) for i in range(len(t))])
+    
+        SigMott = np.array([
+            alphaQED ** 2 / (4 * ElGeV ** 2 * np.sin(Ttheta[i] / 2.0) ** 4)
+            * (EplGeV[i] / ElGeV)
+            * np.cos(Ttheta[i] / 2.0) ** 2 for i in range(len(Ttheta))]
+        )
+    
+        return np.array([conv * SigMott[i] * (eps[i] * GE[i] ** 2 + tau[i] * GM[i] ** 2) / (eps[i] * (1 + tau[i])) for i in range(len(eps))])
+    
+
+        
             
 
 
