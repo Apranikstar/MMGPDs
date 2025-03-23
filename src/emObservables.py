@@ -269,14 +269,9 @@ class EMObservables:
         # Forcing formatting
         theta = np.array(theta)
         t = np.array(t)
-        GE = np.array([
-            quad(F1F2GE, 1e-9, 1, args=(1, Mass, t[i]), limit=500)[0]
-            for i in range(len(t))
-            ])
-        GM = np.array([
-            quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=500)[0]
-            for i in range(len(t))
-            ])
+        GE = np.array([quad(F1F2GE, 1e-9, 1, args=(1, Mass, ti), limit=500)[0] for ti in t])
+        GM = np.array([quad(F1F2GM, 1e-9, 1, args=(1, ti), limit=500)[0] for ti in t])
+
         tau = -t / (4.0 * Mass**2)
         Ttheta = np.radians(theta)  # Convert degrees to radians
         eps = 1.0 / (1 + 2 * (1 + tau) * np.tan(Ttheta / 2.0) ** 2)
