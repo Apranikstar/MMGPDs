@@ -277,19 +277,20 @@ class EMObservables:
             quad(F1F2GM, 1e-9, 1, args=(1, t[i]), limit=500)[0]
             for i in range(len(t))
             ])
-        tau = np.array([-t[i] / (4.0 * Mass ** 2) for i in range(len(t))])
-        Ttheta = theta * PI / 180.0  # Convert degrees to radians
-        eps = np.array([1.0 / (1 + 2 * (1 + tau[i]) * np.tan(Ttheta[i] / 2.0) ** 2) for i in range(len(tau))])
-        ElGeV = El / 1000.0
-        EplGeV = np.array([-t[i] / (4 * ElGeV * np.sin(Ttheta[i] / 2.0) ** 2) for i in range(len(t))])
+        tau = -t / (4.0 * Mass**2)
+        Ttheta = np.radians(theta)  # Convert degrees to radians
+        eps = 1.0 / (1 + 2 * (1 + tau) * np.tan(Ttheta / 2.0) ** 2)
     
-        SigMott = np.array([
-            alphaQED ** 2 / (4 * ElGeV ** 2 * np.sin(Ttheta[i] / 2.0) ** 4)
-            * (EplGeV[i] / ElGeV)
-            * np.cos(Ttheta[i] / 2.0) ** 2 for i in range(len(Ttheta))]
+        ElGeV = El / 1000.0
+        EplGeV = -t / (4 * ElGeV * np.sin(Ttheta / 2.0) ** 2)
+    
+        SigMott = (
+            (alphaQED**2 / (4 * ElGeV**2 * np.sin(Ttheta / 2.0) ** 4))
+            * (EplGeV / ElGeV)
+            * np.cos(Ttheta / 2.0) ** 2
         )
     
-        return np.array([conv * SigMott[i] * (eps[i] * GE[i] ** 2 + tau[i] * GM[i] ** 2) / (eps[i] * (1 + tau[i])) for i in range(len(eps))])
+        return conv * SigMott * (eps * GE**2 + tau * GM**2) / (eps * (1 + tau))
     
 
         
